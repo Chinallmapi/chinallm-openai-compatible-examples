@@ -14,19 +14,33 @@ Everything here uses the standard OpenAI SDK or plain HTTP. No vendor-specific c
 
 - **Cost-efficient** — Better pricing than direct API calls
 - **OpenAI-compatible** — Use your existing OpenAI SDK, just change the base URL
-- **China-native models** — Access DeepSeek, GLM, Alibaba models alongside OpenAI
+- **China-native models** — Access DeepSeek, GLM, Alibaba, Kimi, MiniMax, Qwen alongside OpenAI
 - **Full endpoint coverage** — Chat, Responses, Embeddings, Rerank, Images, Audio
 
-## Supported Models
+## Supported Models & Pricing
 
-| Provider | Models | Multiplier |
-|----------|--------|------------|
-| OpenAI | gpt-5.4, gpt-5.5, gpt-image-2 | 1.3x |
-| DeepSeek | deepseek-v4-flash, deepseek-v4-pro | 1.05x |
-| GLM | glm-4.7 | 1.05x |
-| Coding Plan (Alibaba) | — | 1.1x |
+**11 models currently available.** Pricing per 1M tokens (input / completion):
 
-Multipliers are relative to base model pricing. Lower = more savings.
+| Model | Input | Completion | Cache Read | Provider | Multiplier |
+|-------|-------|------------|------------|----------|------------|
+| **gpt-5.4** | `.3250` | `.9500` | `.0330` | OpenAI | 1.30x |
+| **gpt-5.5** | `.6500` | `.2000` | `.0650` | OpenAI | 1.30x |
+| **gpt-image-2** | `.039/image` | — | — | OpenAI | 1.30x |
+| **deepseek-v4-flash** | `.1470` | `.2940` | `.0290` | DeepSeek | 1.05x |
+| **deepseek-v4-pro** | `.9240` | `.8480` | `.0770` | DeepSeek | 1.05x |
+| **glm-4.7** | `.6600` | `.5850` | — | GLM | 1.05x |
+| **glm-5** | `.9900` | `.5530` | — | GLM | 1.05x |
+| **GLM-5.1** | `.1970` | `.2000` | `.2150` | GLM | 1.05x |
+| **kimi-k2.5** | `.6600` | `.4100` | — | Kimi | — |
+| **MiniMax-M2.5** | `.3520` | `.3750` | — | MiniMax | — |
+| **qwen3.5-plus** | `.3200` | `.8500` | — | Alibaba | 1.10x |
+
+**Multipliers** are relative to base model pricing. Lower = more savings.
+
+**Best value picks:**
+- **deepseek-v4-flash** — Lowest cost for fast responses (`.147/1M` input)
+- **gpt-5.4** — Balanced OpenAI model with cache support
+- **glm-4.7** — Strong Chinese model at competitive pricing
 
 ## Quick Start (3 minutes)
 
