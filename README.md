@@ -6,7 +6,7 @@
 
 This repo contains copy-paste-ready examples for calling **ChinaLLM API** — an OpenAI-compatible gateway that routes to OpenAI and leading China-native models with better pricing.
 
-**Base URL:** https://chinallmapi.com/v1
+**Base URL:** `https://chinallmapi.com/v1`
 
 Everything here uses the standard OpenAI SDK or plain HTTP. No vendor-specific client needed.
 
@@ -19,26 +19,26 @@ Everything here uses the standard OpenAI SDK or plain HTTP. No vendor-specific c
 
 ## Supported Models & Pricing
 
-**11 models currently available.** Pricing per 1M tokens (input / completion):
+**11 models currently available.** Pricing per 1M tokens:
 
 | Model | Input | Completion | Cache Read | Provider | Multiplier |
 |-------|-------|------------|------------|----------|------------|
-| **gpt-5.4** | `.3250` | `.9500` | `.0330` | OpenAI | 1.30x |
-| **gpt-5.5** | `.6500` | `.2000` | `.0650` | OpenAI | 1.30x |
-| **gpt-image-2** | `.039/image` | — | — | OpenAI | 1.30x |
-| **deepseek-v4-flash** | `.1470` | `.2940` | `.0290` | DeepSeek | 1.05x |
-| **deepseek-v4-pro** | `.9240` | `.8480` | `.0770` | DeepSeek | 1.05x |
-| **glm-4.7** | `.6600` | `.5850` | — | GLM | 1.05x |
-| **glm-5** | `.9900` | `.5530` | — | GLM | 1.05x |
-| **GLM-5.1** | `.1970` | `.2000` | `.2150` | GLM | 1.05x |
-| **kimi-k2.5** | `.6600` | `.4100` | — | Kimi | — |
-| **MiniMax-M2.5** | `.3520` | `.3750` | — | MiniMax | — |
-| **qwen3.5-plus** | `.3200` | `.8500` | — | Alibaba | 1.10x |
+| **gpt-5.4** | $0.3250 | $1.9500 | $0.0330 | OpenAI | 1.30x |
+| **gpt-5.5** | $0.6500 | $5.2000 | $0.0650 | OpenAI | 1.30x |
+| **gpt-image-2** | $0.039/image | — | — | OpenAI | 1.30x |
+| **deepseek-v4-flash** | $0.1470 | $0.2940 | $0.0290 | DeepSeek | 1.05x |
+| **deepseek-v4-pro** | $0.9240 | $1.8480 | $0.0770 | DeepSeek | 1.05x |
+| **glm-4.7** | $0.6600 | $2.5850 | — | GLM | 1.05x |
+| **glm-5** | $0.9900 | $3.5530 | — | GLM | 1.05x |
+| **GLM-5.1** | $1.1970 | $4.2000 | $0.2150 | GLM | 1.05x |
+| **kimi-k2.5** | $0.6600 | $3.4100 | — | Kimi | — |
+| **MiniMax-M2.5** | $0.3520 | $1.3750 | — | MiniMax | — |
+| **qwen3.5-plus** | $1.3200 | $3.8500 | — | Alibaba | 1.10x |
 
 **Multipliers** are relative to base model pricing. Lower = more savings.
 
 **Best value picks:**
-- **deepseek-v4-flash** — Lowest cost for fast responses (`.147/1M` input)
+- **deepseek-v4-flash** — Lowest cost for fast responses ($0.147/1M input)
 - **gpt-5.4** — Balanced OpenAI model with cache support
 - **glm-4.7** — Strong Chinese model at competitive pricing
 
@@ -102,38 +102,37 @@ console.log(response.choices[0].message.content);
 
 | Path | What it shows |
 |------|---------------|
-| curl/chat-completions.sh | Minimal curl request |
-| python/openai_client.py | Python OpenAI SDK usage |
-| 
-ode/openai_client.mjs | Node.js OpenAI SDK usage |
-| model-switching/python_switch.py | Compare models (gpt-5.4 vs deepseek vs glm) |
-| model-switching/node_switch.mjs | Model comparison (Node.js) |
+| `curl/chat-completions.sh` | Minimal curl request |
+| `python/openai_client.py` | Python OpenAI SDK usage |
+| `node/openai_client.mjs` | Node.js OpenAI SDK usage |
+| `model-switching/python_switch.py` | Compare models (gpt-5.4 vs deepseek vs glm) |
+| `model-switching/node_switch.mjs` | Model comparison (Node.js) |
 
 ### Advanced endpoints
 
 | Path | What it shows |
 |------|---------------|
-| esponses/example.sh | Responses API (structured reasoning output) |
-| embeddings/example.sh | Text embeddings for semantic search/RAG |
-| erank/example.sh | Document relevance ranking |
-| images/example.sh | Image generation, editing, variations |
-| udio/example.sh | TTS, transcription, translation |
+| `responses/example.sh` | Responses API (structured reasoning output) |
+| `embeddings/example.sh` | Text embeddings for semantic search/RAG |
+| `rerank/example.sh` | Document relevance ranking |
+| `images/example.sh` | Image generation, editing, variations |
+| `audio/example.sh` | TTS, transcription, translation |
 
 ## Endpoints
 
 All standard OpenAI endpoints work:
 
-- /v1/chat/completions — Chat messages
-- /v1/responses — Structured responses with reasoning
-- /v1/responses/compact — Compact response format
-- /v1/embeddings — Text vector embeddings
-- /v1/rerank — Document relevance ranking
-- /v1/images/generations — Generate images from text
-- /v1/images/edits — Edit images with masks
-- /v1/images/variations — Generate image variations
-- /v1/audio/speech — Text-to-speech
-- /v1/audio/transcriptions — Speech to text
-- /v1/audio/translations — Speech translation to English
+- `/v1/chat/completions` — Chat messages
+- `/v1/responses` — Structured responses with reasoning
+- `/v1/responses/compact` — Compact response format
+- `/v1/embeddings` — Text vector embeddings
+- `/v1/rerank` — Document relevance ranking
+- `/v1/images/generations` — Generate images from text
+- `/v1/images/edits` — Edit images with masks
+- `/v1/images/variations` — Generate image variations
+- `/v1/audio/speech` — Text-to-speech
+- `/v1/audio/transcriptions` — Speech to text
+- `/v1/audio/translations` — Speech translation to English
 
 See full docs at [chinallmapi.com/docs](https://chinallmapi.com/docs).
 
