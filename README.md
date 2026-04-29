@@ -84,27 +84,42 @@ console.log(response.choices[0].message.content);
 
 ## Examples in this repo
 
+### Core examples
+
 | Path | What it shows |
 |------|---------------|
 | curl/chat-completions.sh | Minimal curl request |
 | python/openai_client.py | Python OpenAI SDK usage |
 | 
 ode/openai_client.mjs | Node.js OpenAI SDK usage |
-| model-switching/ | Switch between models (gpt-5.4 → deepseek → glm) |
+| model-switching/python_switch.py | Compare models (gpt-5.4 vs deepseek vs glm) |
+| model-switching/node_switch.mjs | Model comparison (Node.js) |
 
-More endpoints coming: responses, embeddings, rerank, images, audio.
+### Advanced endpoints
+
+| Path | What it shows |
+|------|---------------|
+| esponses/example.sh | Responses API (structured reasoning output) |
+| embeddings/example.sh | Text embeddings for semantic search/RAG |
+| erank/example.sh | Document relevance ranking |
+| images/example.sh | Image generation, editing, variations |
+| udio/example.sh | TTS, transcription, translation |
 
 ## Endpoints
 
 All standard OpenAI endpoints work:
 
-- /v1/chat/completions
-- /v1/responses
-- /v1/embeddings
-- /v1/rerank
-- /v1/images/generations
-- /v1/audio/speech
-- /v1/audio/transcriptions
+- /v1/chat/completions — Chat messages
+- /v1/responses — Structured responses with reasoning
+- /v1/responses/compact — Compact response format
+- /v1/embeddings — Text vector embeddings
+- /v1/rerank — Document relevance ranking
+- /v1/images/generations — Generate images from text
+- /v1/images/edits — Edit images with masks
+- /v1/images/variations — Generate image variations
+- /v1/audio/speech — Text-to-speech
+- /v1/audio/transcriptions — Speech to text
+- /v1/audio/translations — Speech translation to English
 
 See full docs at [chinallmapi.com/docs](https://chinallmapi.com/docs).
 
