@@ -4,7 +4,16 @@
 #
 # Usage:
 #   1. Set your API key: export CHINALLM_API_KEY="your-key"
-#   2. Run: bash example.sh
+#   2. Preview: bash example.sh
+#   3. Send: bash example.sh --send
+
+set -euo pipefail
+if [[ "${1:-}" != "--send" ]]; then
+  echo 'Dry run only: POST https://chinallmapi.com/v1/responses (Authorization: Bearer ***)'
+  echo 'Add --send to perform these requests.'
+  exit 0
+fi
+: "${CHINALLM_API_KEY:?Set CHINALLM_API_KEY before using --send}"
 
 curl https://chinallmapi.com/v1/responses \
   -H "Authorization: Bearer $CHINALLM_API_KEY" \

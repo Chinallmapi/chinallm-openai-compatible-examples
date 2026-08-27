@@ -1,0 +1,16 @@
+{
+  "name": "chinallm-openai-compatible-examples",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Dry-run-first examples for ChinaLLM chat, image and video APIs.",
+  "type": "module",
+  "scripts": {
+    "example": "node safe-cli/cli.mjs",
+    "poll": "node safe-cli/poll-task.mjs",
+    "test": "node --test",
+    "check": "node --check safe-cli/cli.mjs && node --check safe-cli/poll-task.mjs && node --check node/openai_client.mjs && node --check model-switching/node_switch.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
