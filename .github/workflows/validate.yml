@@ -1,0 +1,28 @@
+name: Validate examples
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test safe request builders
+        run: npm test
+      - name: Check Node.js syntax
+        run: npm run check
+      - name: Check Python syntax
+        run: python -m py_compile python/openai_client.py model-switching/python_switch.py
+      - name: Check Bash syntax
+        run: bash -n audio/example.sh curl/chat-completions.sh embeddings/example.sh images/example.sh rerank/example.sh responses/example.sh

@@ -1,145 +1,133 @@
 # ChinaLLM OpenAI-Compatible API Examples
 
-> Minimal, runnable code samples for ChinaLLM's OpenAI-compatible gateway.
+[简体中文](README.zh-CN.md)
 
-## What is this?
+Runnable, dry-run-first examples for the ChinaLLM API: OpenAI-compatible chat, Responses, embeddings, rerank, images, audio, and asynchronous video tasks.
 
-This repo contains copy-paste-ready examples for calling **ChinaLLM API** — an OpenAI-compatible gateway that routes to OpenAI and leading China-native models with better pricing.
+- API base URL: `https://chinallmapi.com/v1`
+- Live model catalog and pricing: [ChinaLLM Model Marketplace](https://chinallmapi.com/pricing)
+- Full documentation: [ChinaLLM Docs](https://chinallmapi.com/docs)
 
-**Base URL:** `https://chinallmapi.com/v1`
+Model availability and pricing can change. Query `/v1/models` and check the live marketplace before production use instead of copying a static price table.
 
-Everything here uses the standard OpenAI SDK or plain HTTP. No vendor-specific client needed.
+## Safety first
 
-## Why use ChinaLLM?
+Every runnable example in this repository defaults to a dry run.
 
-- **Cost-efficient** — Better pricing than direct API calls
-- **OpenAI-compatible** — Use your existing OpenAI SDK, just change the base URL
-- **China-native models** — Access DeepSeek, GLM, Alibaba, Kimi, MiniMax, Qwen alongside OpenAI
-- **Full endpoint coverage** — Chat, Responses, Embeddings, Rerank, Images, Audio
+- No request is sent unless you explicitly add `--send`.
+- `CHINALLM_API_KEY` is required only when sending.
+- Printed examples redact authorization as `Bearer ***`.
+- Generation examples do not auto-retry or auto-submit duplicate jobs.
+- Never commit API keys, `.env` files, user prompts, or generated private assets.
 
-## Supported Models & Pricing
+## Quick start without sending a request
 
-**11 models currently available.** Pricing per 1M tokens:
-
-| Model | Input | Completion | Cache Read | Provider | Multiplier |
-|-------|-------|------------|------------|----------|------------|
-| **gpt-5.4** | $0.3250 | $1.9500 | $0.0330 | OpenAI | 1.30x |
-| **gpt-5.5** | $0.6500 | $5.2000 | $0.0650 | OpenAI | 1.30x |
-| **gpt-image-2** | $0.039/image | — | — | OpenAI | 1.30x |
-| **deepseek-v4-flash** | $0.1470 | $0.2940 | $0.0290 | DeepSeek | 1.05x |
-| **deepseek-v4-pro** | $0.9240 | $1.8480 | $0.0770 | DeepSeek | 1.05x |
-| **glm-4.7** | $0.6600 | $2.5850 | — | GLM | 1.05x |
-| **glm-5** | $0.9900 | $3.5530 | — | GLM | 1.05x |
-| **GLM-5.1** | $1.1970 | $4.2000 | $0.2150 | GLM | 1.05x |
-| **kimi-k2.5** | $0.6600 | $3.4100 | — | Kimi | — |
-| **MiniMax-M2.5** | $0.3520 | $1.3750 | — | MiniMax | — |
-| **qwen3.5-plus** | $1.3200 | $3.8500 | — | Alibaba | 1.10x |
-
-**Multipliers** are relative to base model pricing. Lower = more savings.
-
-**Best value picks:**
-- **deepseek-v4-flash** — Lowest cost for fast responses ($0.147/1M input)
-- **gpt-5.4** — Balanced OpenAI model with cache support
-- **glm-4.7** — Strong Chinese model at competitive pricing
-
-## Quick Start (3 minutes)
-
-### 1. Get your API key
-
-Sign up at [chinallmapi.com](https://chinallmapi.com) and get an API key.
-
-### 2. Set environment variable
+Node.js 18 or newer is enough for the safe CLI:
 
 ```bash
-export CHINALLM_API_KEY="your-api-key-here"
+npm run example -- --kind chat --prompt "Explain asynchronous task polling"
 ```
 
-### 3. Run your first request
+Seedream image request preview:
 
-**curl:**
 ```bash
-curl https://chinallmapi.com/v1/chat/completions \
-  -H "Authorization: Bearer $CHINALLM_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model": "gpt-5.4", "messages": [{"role": "user", "content": "Hello!"}]}'
+npm run example -- --kind image \
+  --model seedream_5.0Pro \
+  --resolution 1K \
+  --ratio 1:1 \
+  --prompt "A white-background product photo"
 ```
 
-**Python:**
-```python
-from openai import OpenAI
+HappyHorse image-to-video request preview:
 
-client = OpenAI(
-    base_url="https://chinallmapi.com/v1",
-    api_key="your-api-key-here"
-)
-
-response = client.chat.completions.create(
-    model="gpt-5.4",
-    messages=[{"role": "user", "content": "Hello!"}]
-)
-print(response.choices[0].message.content)
+```bash
+npm run example -- --kind video \
+  --model happyhorse-1.0-i2v \
+  --image-url "https://example.com/first-frame.png" \
+  --prompt "Slow camera push-in"
 ```
 
-**Node.js:**
-```javascript
-import OpenAI from 'openai';
+These commands only print redacted requests and do not incur API charges.
 
-const client = new OpenAI({
-  baseURL: 'https://chinallmapi.com/v1',
-  apiKey: process.env.CHINALLM_API_KEY
-});
+## Explicitly send a request
 
-const response = await client.chat.completions.create({
-  model: 'gpt-5.4',
-  messages: [{ role: 'user', content: 'Hello!' }]
-});
-console.log(response.choices[0].message.content);
+Set your API key locally, then add `--send`:
+
+```bash
+export CHINALLM_API_KEY='your_api_key_here'
+npm run example -- --kind chat --prompt 'Hello' --send
 ```
 
-## Examples in this repo
+PowerShell:
 
-### Core examples
+```powershell
+$env:CHINALLM_API_KEY = 'your_api_key_here'
+npm run example -- --kind chat --prompt 'Hello' --send
+```
 
-| Path | What it shows |
-|------|---------------|
-| `curl/chat-completions.sh` | Minimal curl request |
-| `python/openai_client.py` | Python OpenAI SDK usage |
-| `node/openai_client.mjs` | Node.js OpenAI SDK usage |
-| `model-switching/python_switch.py` | Compare models (gpt-5.4 vs deepseek vs glm) |
-| `model-switching/node_switch.mjs` | Model comparison (Node.js) |
+Image and video calls can incur charges. Confirm the model, account group, request parameters, and live price before sending.
 
-### Advanced endpoints
+## Query an existing asynchronous task once
 
-| Path | What it shows |
-|------|---------------|
-| `responses/example.sh` | Responses API (structured reasoning output) |
-| `embeddings/example.sh` | Text embeddings for semantic search/RAG |
-| `rerank/example.sh` | Document relevance ranking |
-| `images/example.sh` | Image generation, editing, variations |
-| `audio/example.sh` | TTS, transcription, translation |
+Use the `poll_url` returned by a previously submitted image or video task:
 
-## Endpoints
+```bash
+npm run poll -- \
+  --poll-url "/v1/images/generations/climg_sync_xxxxx"
+```
 
-All standard OpenAI endpoints work:
+Add `--send` to perform one GET request. The example does not loop automatically. Production clients should stop immediately on a failed terminal state and avoid resubmitting the original generation request.
 
-- `/v1/chat/completions` — Chat messages
-- `/v1/responses` — Structured responses with reasoning
-- `/v1/responses/compact` — Compact response format
-- `/v1/embeddings` — Text vector embeddings
-- `/v1/rerank` — Document relevance ranking
-- `/v1/images/generations` — Generate images from text
-- `/v1/images/edits` — Edit images with masks
-- `/v1/images/variations` — Generate image variations
-- `/v1/audio/speech` — Text-to-speech
-- `/v1/audio/transcriptions` — Speech to text
-- `/v1/audio/translations` — Speech translation to English
+## Repository examples
 
-See full docs at [chinallmapi.com/docs](https://chinallmapi.com/docs).
+| Path | Purpose | Default behavior |
+| --- | --- | --- |
+| `safe-cli/` | Chat, Seedream image, HappyHorse video, task query | Dry run |
+| `curl/chat-completions.sh` | Minimal Chat Completions cURL | Dry run |
+| `python/openai_client.py` | OpenAI Python SDK | Dry run |
+| `node/openai_client.mjs` | OpenAI Node.js SDK | Dry run |
+| `model-switching/` | Preview or compare several text models | Dry run |
+| `responses/example.sh` | Responses API | Dry run |
+| `embeddings/example.sh` | Text embeddings | Dry run |
+| `rerank/example.sh` | Document reranking | Dry run |
+| `images/example.sh` | GPT Image generation/edit structure | Dry run |
+| `audio/example.sh` | Speech and transcription structure | Dry run |
+
+The Node.js SDK examples need the `openai` package only when you use `--send`:
+
+```bash
+npm install openai
+```
+
+The Python SDK examples need the `openai` package only when you use `--send`:
+
+```bash
+python -m pip install openai
+```
+
+## Current implementation guides
+
+- [OpenAI-compatible API migration in China](https://chinallmapi.com/guides/openai-compatible-api-china)
+- [OpenAI SDK compatible API guide](https://chinallmapi.com/guides/openai-sdk-compatible-api)
+- [Python image generation API](https://chinallmapi.com/guides/python-image-generation-api)
+- [Node.js video generation API](https://chinallmapi.com/guides/nodejs-video-generation-api)
+- [Image-to-video image parameters](https://chinallmapi.com/guides/image-to-video-image-parameters)
+- [Video task polling and failure handling](https://chinallmapi.com/guides/video-generation-task-polling)
+- [401 Invalid token troubleshooting](https://chinallmapi.com/guides/401-invalid-token-api-error)
+- [429 Too Many Requests troubleshooting](https://chinallmapi.com/guides/429-too-many-requests-api-error)
+- [API balance and billing troubleshooting](https://chinallmapi.com/guides/api-balance-billing-errors)
+
+## Validate locally
+
+The test suite validates request shapes without accessing the API:
+
+```bash
+npm test
+npm run check
+```
+
+CI also checks Node.js syntax, Python syntax, and Bash syntax without using secrets.
 
 ## License
 
-MIT — use freely, no restrictions.
-
----
-
-Made by [ChinaLLM](https://chinallmapi.com). Questions? Reach us at support@chinallmapi.com.
+MIT. See [LICENSE](LICENSE).

@@ -4,7 +4,16 @@
 #
 # Usage:
 #   1. Set your API key: export CHINALLM_API_KEY="your-key"
-#   2. Run: bash example.sh
+#   2. Preview: bash example.sh
+#   3. Send: bash example.sh --send
+
+set -euo pipefail
+if [[ "${1:-}" != "--send" ]]; then
+  echo 'Dry run only: POST https://chinallmapi.com/v1/audio/speech (Authorization: Bearer ***)'
+  echo 'Add --send to perform this request.'
+  exit 0
+fi
+: "${CHINALLM_API_KEY:?Set CHINALLM_API_KEY before using --send}"
 
 # Text-to-speech: Generate audio from text
 curl https://chinallmapi.com/v1/audio/speech \
